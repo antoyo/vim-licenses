@@ -1,0 +1,36 @@
+*licenses.txt*  Plugin to insert licenses.
+
+Author:         Antoni Boucher <bouanto@gmail.com>
+License:        BSD
+Version:        0.3
+
+This plugin provides commands to insert licenses at the top of the buffer.
+If the license is already at the top of the buffer, nothing is added.
+This plugin works for the most popular programming languages, including
+C, Java, Objective-C, C++, C#, PHP, Python, JavaScript, Ruby, Perl and Asm.
+It may work for other programming languages.
+
+There are currently only three licenses, but you can add your own.
+To do so, copy the license text in ~/.vim/licenses/licenseFile.txt.
+Then add a command for this license:
+
+    command! License call InsertLicense('licenseFile')
+
+If your license file contains a <year> tag, it will be automatically
+replaced by the current year.
+
+You may want to edit the licenses in the ~/.vim/licenses directory to change
+the <name of author> tag by your name.
+
+Commands:
+:Gpl
+    Add the GPL license to the buffer.
+
+:Bsd
+    Add the BSD license to the buffer.
+
+:Lgpl
+    Add the LGPL license to the buffer.
+
+                                                             *licenses-settings*
+This plugin doesn't have any settings.

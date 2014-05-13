@@ -1,4 +1,4 @@
-Copyright (c) 2014 Boucher, Antoni <bouanto@gmail.com>
+Copyright (c) <year> <name of author>
 
 All rights reserved.
 
