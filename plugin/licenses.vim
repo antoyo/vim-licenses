@@ -1,36 +1,33 @@
-" Copyright (c) 2014 Boucher, Antoni <bouanto@gmail.com>
-" 
-" All rights reserved.
-" 
-" Redistribution and use in source and binary forms, with or without
-" modification, are permitted provided that the following conditions
-" are met:
-" 
-" * Redistributions of source code must retain the above copyright
-" notice, this list of conditions and the following disclaimer.
-" 
-" * Redistributions in binary form must reproduce the above copyright
-" notice, this list of conditions and the following disclaimer in the
-" documentation and/or other materials provided with the distribution.
-" 
-" * Neither the name of the copyright holder nor the names of its
-" contributors may be used to endorse or promote products derived from
-" this software without specific prior written permission.
-" 
-" THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-" "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-" LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-" A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-" OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-" SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-" LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-" DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-" THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-" OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+"  Copyright (c) 2014, <name of author>
+"  All rights reserved.
+"  
+"  Redistribution and use in source and binary forms, with or without
+"  modification, are permitted provided that the following conditions are met:
+"      * Redistributions of source code must retain the above copyright
+"        notice, this list of conditions and the following disclaimer.
+"      * Redistributions in binary form must reproduce the above copyright
+"        notice, this list of conditions and the following disclaimer in the
+"        documentation and/or other materials provided with the distribution.
+"      * Neither the name of the <organization> nor the
+"        names of its contributors may be used to endorse or promote products
+"        derived from this software without specific prior written permission.
+"  
+"  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+"  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+"  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+"  DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
+"  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+"  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+"  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+"  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+"  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+"  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+" TODO: fix adding the license in CMakeLists.txt and *.vim files.
+" TODO: test with the 20 most popular programming languages and html/css.
 
 " Vim plugin to insert licenses.
-" Last Change: 2014 May 12
+" Last Change: 2014 May 13
 " Maintener: Antoni Boucher <bouanto@gmail.com>
 " License: BSD
 
@@ -39,6 +36,10 @@ if exists('g:loaded_licenses')
 endif
 
 let g:loaded_licenses = 1
+
+if !exists('g:licenses_authors_name')
+    let g:licenses_authors_name = ''
+endif
 
 " Insert and comment the provided license.
 function! InsertLicense(name)
@@ -64,6 +65,7 @@ function! InsertLicense(name)
             endif
 
             call s:substituteYear()
+            call s:substituteAuthorName()
         endif
     else
         echoerr 'Cannot find file ' . licenseFileName . '.'
@@ -230,9 +232,33 @@ function! s:substituteYear()
     silent! substitute /<year>/\=strftime('%Y')/
 endfunction
 
+" Substitute the author's name tag.
+function! s:substituteAuthorName()
+    if len(g:licenses_authors_name) > 0
+        let _ = search('<name of author>', 'b')
+        silent! substitute /Boucher, Antoni <bouanto@gmail.com>/\=g:licenses_authors_name/
+    endif
+endfunction
+
 " Add a few default commands.
-if !exists(':Bsd')
-    command Bsd call InsertLicense('bsd')
+if !exists(':Affero')
+    command Affero call InsertLicense('affero')
+endif
+
+if !exists(':Apache')
+    command Apache call InsertLicense('apache')
+endif
+
+if !exists(':Bsd2')
+    command Bsd2 call InsertLicense('bsd2')
+endif
+
+if !exists(':Bsd3')
+    command Bsd3 call InsertLicense('bsd3')
+endif
+
+if !exists('Epl')
+    command Epl call InsertLicense('epl')
 endif
 
 if !exists('Gpl')
@@ -241,4 +267,12 @@ endif
 
 if !exists('Lgpl')
     command Lgpl call InsertLicense('lgpl')
+endif
+
+if !exists('Mit')
+    command Mit call InsertLicense('mit')
+endif
+
+if !exists('Mpl')
+    command Mpl call InsertLicense('mpl')
 endif

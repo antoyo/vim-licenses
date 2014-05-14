@@ -10,7 +10,7 @@ This plugin works for the most popular programming languages, including
 C, Java, Objective-C, C++, C#, PHP, Python, JavaScript, Ruby, Perl and Asm.
 It may work for other programming languages.
 
-There are currently only three licenses, but you can add your own.
+There are currently nine licenses, and you can add your own.
 To do so, copy the license text in ~/.vim/licenses/licenseFile.txt.
 Then add a command for this license:
 
@@ -19,18 +19,43 @@ Then add a command for this license:
 If your license file contains a <year> tag, it will be automatically
 replaced by the current year.
 
-You may want to edit the licenses in the ~/.vim/licenses directory to change
-the <name of author> tag by your name.
+And the <name of author> tag will be automatically replaced by the the
+content of the g:licenses_authors_name variable (if not empty), so that
+your name will be automatically added to the license.
+Thus, you may want to add such a line to you .vimrc:
+
+let g:licenses_authors_name = 'Last Name, First Name <my@email.com>'
 
 Commands:
-:Gpl
-    Add the GPL license to the buffer.
+:Affero
+    Add the GNU Affero license to the buffer.
 
-:Bsd
-    Add the BSD license to the buffer.
+:Apache
+    Add the Apache License 2.0 to the buffer.
+
+:Bsd2
+    Add the BSD 2-Clause "New" or "Revised" license to the buffer.
+
+:Bsd3
+    Add the BSD 3-Clause "Simplified" or "FreeBSD" license to the buffer.
+
+:Epl
+    Add the Eclipse Public License to the buffer.
+
+:Gpl
+    Add the GNU General Public License (GPL) to the buffer.
 
 :Lgpl
-    Add the LGPL license to the buffer.
+    Add the GNU "Lesser" General Public License (LGPL) license to the buffer.
+
+:Mit
+    Add the MIT license to the buffer.
+
+:Mpl
+    Add the Mozilla Public License 2.0 to the buffer.
 
                                                              *licenses-settings*
-This plugin doesn't have any settings.
+
+The g:licenses_authors_name option
+
+The name of author to automatically insert in the buffer in the licence.
