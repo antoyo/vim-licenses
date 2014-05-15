@@ -1,33 +1,33 @@
-"  Copyright (c) 2014, <name of author>
-"  All rights reserved.
-"  
-"  Redistribution and use in source and binary forms, with or without
-"  modification, are permitted provided that the following conditions are met:
-"      * Redistributions of source code must retain the above copyright
-"        notice, this list of conditions and the following disclaimer.
-"      * Redistributions in binary form must reproduce the above copyright
-"        notice, this list of conditions and the following disclaimer in the
-"        documentation and/or other materials provided with the distribution.
-"      * Neither the name of the <organization> nor the
-"        names of its contributors may be used to endorse or promote products
-"        derived from this software without specific prior written permission.
-"  
-"  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-"  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-"  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-"  DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
-"  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-"  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-"  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-"  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-"  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-"  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+" Copyright (c) 2014, Boucher, Antoni <bouanto@gmail.com>
+" All rights reserved.
+" 
+" Redistribution and use in source and binary forms, with or without
+" modification, are permitted provided that the following conditions are met:
+"     * Redistributions of source code must retain the above copyright
+"       notice, this list of conditions and the following disclaimer.
+"     * Redistributions in binary form must reproduce the above copyright
+"       notice, this list of conditions and the following disclaimer in the
+"       documentation and/or other materials provided with the distribution.
+"     * Neither the name of the <organization> nor the
+"       names of its contributors may be used to endorse or promote products
+"       derived from this software without specific prior written permission.
+" 
+" THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+" ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+" WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+" DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
+" DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+" (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+" LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+" ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+" SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-" TODO: fix adding the license in CMakeLists.txt and *.vim files.
 " TODO: test with the 20 most popular programming languages and html/css.
+" TODO: test in Windows.
 
 " Vim plugin to insert licenses.
-" Last Change: 2014 May 13
+" Last Change: 2014 May 14
 " Maintener: Antoni Boucher <bouanto@gmail.com>
 " License: BSD
 
@@ -58,14 +58,19 @@ function! InsertLicense(name)
             let commentDelimiters = s:getCommentDelimiters()
 
             " Comment the license.
+            let newLineCount = 0
             if s:isSinglelineComment(commentDelimiters)
                 call s:insertSinglelineComment(commentDelimiters, addedLineCount)
             else
+                let newLineCount = 2
                 call s:insertComment(commentDelimiters, addedLineCount)
             endif
 
-            call s:substituteYear()
-            call s:substituteAuthorName()
+            let addedLineCount += newLineCount
+            let lastLine = line('.') - 1
+            let firstLine = lastLine - addedLineCount + 1
+            call s:substituteYear(firstLine, lastLine)
+            call s:substituteAuthorName(firstLine, lastLine)
         endif
     else
         echoerr 'Cannot find file ' . licenseFileName . '.'
@@ -76,7 +81,11 @@ endfunction
 function! s:getCommentDelimiters()
     let comments = split(&comments, ',')
     let commentDelimiters = {}
-    let commentIndent = 0
+    if s:isCMakeLists()
+        let commentDelimiters['singlelineStart'] = '# '
+        return commentDelimiters
+    endif
+    let commentIndent = 1
     for i in range(len(comments))
         let splitted = split(comments[i], ':')
         if len(splitted) > 1
@@ -96,13 +105,11 @@ function! s:getCommentDelimiters()
                 if flags !~# '[efms]'
                     let commentDelimiters['singlelineStart'] = splitted[1]
                     let commentIndent = s:getIndent(flags, commentIndent)
-                    if commentIndent == 0 && flags =~# 'b'
-                        let commentIndent = 1
-                    endif
                 endif
             endif
         else
             let commentDelimiters['singlelineStart'] = splitted[0]
+            let commentIndent = s:getIndent('', commentIndent)
         endif
     endfor
     let indentString = s:getIndentString(commentIndent)
@@ -134,6 +141,11 @@ function! s:getIndentString(commentIndent)
         let indentString .= ' '
     endfor
     return indentString
+endfunction
+
+" Go to the specified line number.
+function! s:goTo(lineNumber)
+    execute ':' . a:lineNumber
 endfunction
 
 " License insertion.
@@ -220,23 +232,40 @@ function s:insertComment(commentDelimiters, addedLineCount)
     normal o
 endfunction
 
+" Check whether the current file is a CMakeLists.txt file.
+function! s:isCMakeLists()
+    return expand('%:t') == 'CMakeLists.txt'
+endfunction
+
 " Check whether only the singleline comment is supported.
-function s:isSinglelineComment(commentDelimiters)
-    let isCMakeLists = expand('%:t') == 'CMakeLists.txt'
-    return !(has_key(a:commentDelimiters, 'start') && has_key(a:commentDelimiters, 'middle') && has_key(a:commentDelimiters, 'end')) || isCMakeLists
+function! s:isSinglelineComment(commentDelimiters)
+    return !(has_key(a:commentDelimiters, 'start') && has_key(a:commentDelimiters, 'middle') && has_key(a:commentDelimiters, 'end')) || s:isCMakeLists() || s:isVimScript()
+endfunction
+
+" Check whether the current file is a Vim Script file.
+function! s:isVimScript()
+    return expand('%:e') == 'vim'
 endfunction
 
 " Substitute the year tag to the current year.
-function! s:substituteYear()
-    let _ = search('<year>', 'b')
-    silent! substitute /<year>/\=strftime('%Y')/
+function! s:substituteYear(firstLine, lastLine)
+    call s:goTo(a:lastLine)
+    let _ = search('<year>', 'w')
+    let currentLine = line('.')
+    if currentLine >= a:firstLine && currentLine <= a:lastLine
+        silent! substitute /<year>/\=strftime('%Y')/
+    endif
 endfunction
 
 " Substitute the author's name tag.
-function! s:substituteAuthorName()
+function! s:substituteAuthorName(firstLine, lastLine)
     if len(g:licenses_authors_name) > 0
-        let _ = search('<name of author>', 'b')
-        silent! substitute /Boucher, Antoni <bouanto@gmail.com>/\=g:licenses_authors_name/
+        call s:goTo(a:lastLine)
+        let _ = search('<name of author>', 'w')
+        let currentLine = line('.')
+        if currentLine >= a:firstLine && currentLine <= a:lastLine
+            silent! substitute /<name of author>/\=g:licenses_authors_name/
+        endif
     endif
 endfunction
 
