@@ -7,8 +7,9 @@ Version:        0.3
 This plugin provides commands to insert licenses at the top of the buffer.
 If the license is already at the top of the buffer, nothing is added.
 This plugin works for the most popular programming languages, including
-C, Java, Objective-C, C++, C#, PHP, Python, JavaScript, Ruby, Perl and Asm.
-It may work for other programming languages.
+C, Java, Objective-C, C++, C#, PHP, Python, JavaScript, Ruby, Perl, Asm and Haskell.
+The HTML and CSS languages are also supported.
+It may work for other languages.
 
 There are currently nine licenses, and you can add your own.
 To do so, copy the license text in ~/.vim/licenses/licenseFile.txt.

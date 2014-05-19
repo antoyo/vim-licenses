@@ -23,11 +23,8 @@
 " (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 " SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-" TODO: test with the 20 most popular programming languages and html/css.
-" TODO: test in Windows.
-
 " Vim plugin to insert licenses.
-" Last Change: 2014 May 14
+" Last Change: 2014 May 18
 " Maintener: Antoni Boucher <bouanto@gmail.com>
 " License: BSD
 
@@ -41,6 +38,17 @@ if !exists('g:licenses_authors_name')
     let g:licenses_authors_name = ''
 endif
 
+" Default comment delimiters for some languages without proper options
+" setting.
+let s:filetypeCommentDelimiters = {
+    \'cmake': {
+        \'singlelineStart': '# '
+    \},
+    \'sh': {
+        \'singlelineStart': '# '
+    \}
+\}
+
 " Insert and comment the provided license.
 function! InsertLicense(name)
     " Check if the license is already in the buffer.
@@ -52,23 +60,25 @@ function! InsertLicense(name)
     if filereadable(expand(licenseFileName))
         let fileContent = readfile(expand(licenseFileName))
 
-        if search(fileContent[-1:][0]) == 0
-            let addedLineCount = s:insertLicense(licenseFileName)
+        let searchResult = search(fileContent[-1])
+        if searchResult == 0 || searchResult > len(fileContent) + 5
+            let oldLineCount = line('$')
+            let secondLineEmpty = line('$') > 1 && getline(2) == ''
+            let addedLineCount = s:insertLicense(licenseFileName, secondLineEmpty)
 
             let commentDelimiters = s:getCommentDelimiters()
 
             " Comment the license.
-            let newLineCount = 0
             if s:isSinglelineComment(commentDelimiters)
                 call s:insertSinglelineComment(commentDelimiters, addedLineCount)
             else
-                let newLineCount = 2
-                call s:insertComment(commentDelimiters, addedLineCount)
+                call s:insertComment(commentDelimiters, addedLineCount, secondLineEmpty)
             endif
+            let newLineCount = line('$')
+            let lineCountDiff = newLineCount - oldLineCount
 
-            let addedLineCount += newLineCount
             let lastLine = line('.') - 1
-            let firstLine = lastLine - addedLineCount + 1
+            let firstLine = lastLine - lineCountDiff + 1
             call s:substituteYear(firstLine, lastLine)
             call s:substituteAuthorName(firstLine, lastLine)
         endif
@@ -81,9 +91,8 @@ endfunction
 function! s:getCommentDelimiters()
     let comments = split(&comments, ',')
     let commentDelimiters = {}
-    if s:isCMakeLists()
-        let commentDelimiters['singlelineStart'] = '# '
-        return commentDelimiters
+    if has_key(s:filetypeCommentDelimiters, &filetype)
+        return s:filetypeCommentDelimiters[&filetype]
     endif
     let commentIndent = 1
     for i in range(len(comments))
@@ -149,16 +158,14 @@ function! s:goTo(lineNumber)
 endfunction
 
 " License insertion.
-function! s:insertLicense(licenseFileName)
+function! s:insertLicense(licenseFileName, secondLineEmpty)
     let lineCounteBefore = line('$')
     normal gg
 
     let line1 = getline(1)
 
-    if line1 =~# '^#!' || (&filetype == 'php' && line1 =~# '^<?php')
+    if line1 =~# '^#!' 
         if line('$') < 2
-            normal o
-            call setline('.', '')
             normal o
             call setline('.', '')
         endif
@@ -166,6 +173,14 @@ function! s:insertLicense(licenseFileName)
         let lineCounteBefore = line('$')
 
         execute '2read ' . expand(a:licenseFileName)
+    elseif s:isFileType('php') && line1 =~# '^<?php'
+        let lineCounteBefore = line('$')
+
+        if a:secondLineEmpty
+            execute '2read ' . expand(a:licenseFileName)
+        else
+            execute '1read ' . expand(a:licenseFileName)
+        endif
     else
         execute '0read ' . expand(a:licenseFileName)
     endif
@@ -185,71 +200,78 @@ function s:insertSinglelineComment(commentDelimiters, addedLineCount)
 
     let commentChar = a:commentDelimiters['singlelineStart']
 
+    let lastLine = line('.') + a:addedLineCount - 1
+
     for i in range(1, a:addedLineCount)
         substitute /^/\=commentChar/
         call cursor(line('.') + 1, 0)
     endfor
 
-    normal O
+    if line('.') == lastLine
+        normal o
+        call setline('.', '')
+        normal o
+    else
+        normal O
+    endif
+    call setline('.', '')
 endfunction
 
 " Insert multiline comment.
-function s:insertComment(commentDelimiters, addedLineCount)
+function s:insertComment(commentDelimiters, addedLineCount, secondLineEmpty)
     " Insert php open tag if filetype is php and first line does not
     " contain it.
     let hasInsertedPhpTag = 0
     let line1 = getline(1)
-    if &filetype == 'php'
+    if s:isFileType('php')
         if line1 !~# '^<?php'
             let hasInsertedPhpTag = 1
             normal ggO<?php
             normal o
         else
-            normal ggo
-            call cursor(line('.') + 1, 0)
+            normal gg
+            if !a:secondLineEmpty
+                normal o
+            else
+                call cursor(line('.') + 1, 0)
+            endif
         endif
+        normal o
     else
         normal ggO
     endif
 
-    put =a:commentDelimiters['start']
-    call cursor(line('.') - 1, 0)
-    delete
+    call setline('.', a:commentDelimiters['start'])
     for i in range(1, a:addedLineCount)
         call cursor(line('.') + 1, 0)
         substitute /^/\=a:commentDelimiters['middle']/
-        call cursor(0, col('.') + 1)
     endfor
     put =a:commentDelimiters['end']
     normal I 
 
     " Insert php close tag if filetype is php and first line did not
     " contain it.
-    if &filetype == 'php' && hasInsertedPhpTag
+    if s:isFileType('php') && hasInsertedPhpTag
+        normal o
         normal o?>
     endif
 
     normal o
 endfunction
 
-" Check whether the current file is a CMakeLists.txt file.
-function! s:isCMakeLists()
-    return expand('%:t') == 'CMakeLists.txt'
+" Check whether the current file is of the specified filetype.
+function! s:isFileType(filetype)
+    return &filetype == a:filetype
 endfunction
 
 " Check whether only the singleline comment is supported.
 function! s:isSinglelineComment(commentDelimiters)
-    return !(has_key(a:commentDelimiters, 'start') && has_key(a:commentDelimiters, 'middle') && has_key(a:commentDelimiters, 'end')) || s:isCMakeLists() || s:isVimScript()
-endfunction
-
-" Check whether the current file is a Vim Script file.
-function! s:isVimScript()
-    return expand('%:e') == 'vim'
+    return !(has_key(a:commentDelimiters, 'start') && has_key(a:commentDelimiters, 'middle') && has_key(a:commentDelimiters, 'end')) || s:isFileType('cmake') || s:isFileType('vim') || s:isFileType('sh')
 endfunction
 
 " Substitute the year tag to the current year.
 function! s:substituteYear(firstLine, lastLine)
-    call s:goTo(a:lastLine)
+    call s:goTo(a:firstLine)
     let _ = search('<year>', 'w')
     let currentLine = line('.')
     if currentLine >= a:firstLine && currentLine <= a:lastLine
@@ -260,7 +282,7 @@ endfunction
 " Substitute the author's name tag.
 function! s:substituteAuthorName(firstLine, lastLine)
     if len(g:licenses_authors_name) > 0
-        call s:goTo(a:lastLine)
+        call s:goTo(a:firstLine)
         let _ = search('<name of author>', 'w')
         let currentLine = line('.')
         if currentLine >= a:firstLine && currentLine <= a:lastLine
