@@ -24,7 +24,7 @@
 " SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 " Vim plugin to insert licenses.
-" Last Change: 2014 May 18
+" Last Change: 2014 May 19
 " Maintener: Antoni Boucher <bouanto@gmail.com>
 " License: BSD
 
@@ -42,6 +42,9 @@ endif
 " setting.
 let s:filetypeCommentDelimiters = {
     \'cmake': {
+        \'singlelineStart': '# '
+    \},
+    \'python': {
         \'singlelineStart': '# '
     \},
     \'sh': {

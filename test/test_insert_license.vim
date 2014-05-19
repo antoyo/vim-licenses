@@ -55,6 +55,7 @@ endfunction
 function! s:tc.test_asm()
     new test.asm
     call s:clearWindow()
+    set filetype=nasm
     Gpl
     call self.assert_equal('; Copyright (C) ' . s:year . '  ' . s:name, getline(1))
     call self.assert_equal('; ', getline(2))
