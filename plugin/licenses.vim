@@ -44,10 +44,13 @@ if !exists('g:licenses_default_commands')
         \'apache',
         \'bsd2', 'bsd3',
         \'epl',
-        \'gpl',
+        \'gfdl',
+        \'gpl', 'gplv2',
         \'lgpl',
         \'mit',
-        \'mpl'
+        \'mpl',
+        \'unlicense',
+        \'wtfpl',
     \]
 endif
 
