@@ -45,10 +45,14 @@ if !exists('g:licenses_default_commands')
         \, 'bsd2'
         \, 'bsd3'
         \, 'epl'
+        \, 'gfdl'
         \, 'gpl'
+        \, 'gplv2'
         \, 'lgpl'
         \, 'mit'
         \, 'mpl'
+        \, 'unlicense'
+        \, 'wtfpl'
         \, 'zlib'
     \]
 endif
