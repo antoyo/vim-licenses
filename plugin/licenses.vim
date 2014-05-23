@@ -38,6 +38,22 @@ if !exists('g:licenses_authors_name')
     let g:licenses_authors_name = ''
 endif
 
+if !exists('g:licenses_default_commands')
+    let g:licenses_default_commands = [
+        \'affero',
+        \'apache',
+        \'bsd2', 'bsd3',
+        \'epl',
+        \'gfdl',
+        \'gpl', 'gplv2',
+        \'lgpl',
+        \'mit',
+        \'mpl',
+        \'unlicense',
+        \'wtfpl',
+    \]
+endif
+
 " Default comment delimiters for some languages without proper options
 " setting.
 let s:filetypeCommentDelimiters = {
@@ -293,38 +309,7 @@ function! s:substituteAuthorName(firstLine, lastLine)
 endfunction
 
 " Add a few default commands.
-if !exists(':Affero')
-    command Affero call InsertLicense('affero')
-endif
-
-if !exists(':Apache')
-    command Apache call InsertLicense('apache')
-endif
-
-if !exists(':Bsd2')
-    command Bsd2 call InsertLicense('bsd2')
-endif
-
-if !exists(':Bsd3')
-    command Bsd3 call InsertLicense('bsd3')
-endif
-
-if !exists('Epl')
-    command Epl call InsertLicense('epl')
-endif
-
-if !exists('Gpl')
-    command Gpl call InsertLicense('gpl')
-endif
-
-if !exists('Lgpl')
-    command Lgpl call InsertLicense('lgpl')
-endif
-
-if !exists('Mit')
-    command Mit call InsertLicense('mit')
-endif
-
-if !exists('Mpl')
-    command Mpl call InsertLicense('mpl')
-endif
+for s:license in g:licenses_default_commands
+    let s:command = toupper(s:license[0]) . tolower(s:license[1:])
+    execute 'command '. s:command . ' call InsertLicense("' . s:license . '")'
+endfor
