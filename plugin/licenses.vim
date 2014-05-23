@@ -55,10 +55,9 @@ let s:filetypeCommentDelimiters = {
 " Insert and comment the provided license.
 function! InsertLicense(name)
     " Check if the license is already in the buffer.
-    if has('win32')
-        let licenseFileName = '~/vimfiles/licenses/' . a:name . '.txt'
-    else
-        let licenseFileName = '~/.vim/licenses/' . a:name . '.txt'
+    let licenseFileName = expand('<sfile>:p:h') . '/licenses/' . a:name . '.txt'
+    if !filereadable(expand(licenseFileName))
+        let licenseFileName = expand('<sfile>:p:h:h') . '/licenses/' . a:name . '.txt'
     endif
     if filereadable(expand(licenseFileName))
         let fileContent = readfile(expand(licenseFileName))
