@@ -52,13 +52,12 @@ let s:filetypeCommentDelimiters = {
     \}
 \}
 
+let s:licensesPath = expand('<sfile>:p:h:h') . '/licenses/'
+
 " Insert and comment the provided license.
 function! InsertLicense(name)
     " Check if the license is already in the buffer.
-    let licenseFileName = expand('<sfile>:p:h') . '/licenses/' . a:name . '.txt'
-    if !filereadable(expand(licenseFileName))
-        let licenseFileName = expand('<sfile>:p:h:h') . '/licenses/' . a:name . '.txt'
-    endif
+    let licenseFileName = s:licensesPath . a:name . '.txt'
     if filereadable(expand(licenseFileName))
         let fileContent = readfile(expand(licenseFileName))
 
