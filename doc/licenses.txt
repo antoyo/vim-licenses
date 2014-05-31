@@ -63,3 +63,7 @@ Commands:
 The g:licenses_authors_name option
 
 The name of author to automatically insert in the buffer in the licence.
+
+The g:licenses_default_commands option
+
+Choose what commands to create for the listed licenses.
