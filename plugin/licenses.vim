@@ -328,3 +328,7 @@ endif
 if !exists('Mpl')
     command Mpl call InsertLicense('mpl')
 endif
+
+if !exists('Zlib')
+    command Zlib call InsertLicense('zlib')
+endif
