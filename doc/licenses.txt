@@ -55,6 +55,9 @@ Commands:
 :Mpl
     Add the Mozilla Public License 2.0 to the buffer.
 
+:Zlib
+    Add the Zlib License to the buffer.
+
                                                              *licenses-settings*
 
 The g:licenses_authors_name option
