@@ -24,7 +24,7 @@
 " SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 " Vim plugin to insert licenses.
-" Last Change: 2014 May 19
+" Last Change: 2014 May 31
 " Maintener: Antoni Boucher <bouanto@gmail.com>
 " License: BSD
 
@@ -311,7 +311,7 @@ function! s:substituteAuthorName(firstLine, lastLine)
     endif
 endfunction
 
-" Add a few default commands.
+" Add a the default commands.
 for s:license in g:licenses_default_commands
     let s:command = toupper(s:license[0]) . tolower(s:license[1:])
     execute 'command '. s:command . ' call InsertLicense("' . s:license . '")'

@@ -2,7 +2,7 @@
 
 Author:         Antoni Boucher <bouanto@gmail.com>
 License:        BSD
-Version:        0.3
+Version:        0.4
 
 This plugin provides commands to insert licenses at the top of the buffer.
 If the license is already at the top of the buffer, nothing is added.
@@ -11,7 +11,7 @@ C, Java, Objective-C, C++, C#, PHP, Python, JavaScript, Ruby, Perl, Asm and Hask
 The HTML and CSS languages are also supported.
 It may work for other languages.
 
-There are currently nine licenses, and you can add your own.
+There are currently more than 10 licenses, and you can add your own.
 To do so, copy the license text in ~/.vim/licenses/licenseFile.txt.
 Then add a command for this license:
 
@@ -26,6 +26,13 @@ your name will be automatically added to the license.
 Thus, you may want to add such a line to you .vimrc:
 
 let g:licenses_authors_name = 'Last Name, First Name <my@email.com>'
+
+If you do not want this plugin to create all these commands, you may
+restrict to the licenses you want by using the g:licenses_default_commands
+option. For instance, to have this plugin add only a command for the GNU GPL,
+Mit and Foobar licenses, use this:
+
+let g:licenses_default_commands = ['gpl', 'mit', 'foobar']
 
 Commands:
 :Affero
@@ -43,8 +50,14 @@ Commands:
 :Epl
     Add the Eclipse Public License to the buffer.
 
+:Gfdl
+    Add the GNU Free Documentation License (FDL) to the buffer.
+
 :Gpl
-    Add the GNU General Public License (GPL) to the buffer.
+    Add the GNU General Public License (GPL) version 3.0 to the buffer.
+
+:Gplv2
+    Add the GNU General Public License (GPL) version 2.0 to the buffer.
 
 :Lgpl
     Add the GNU "Lesser" General Public License (LGPL) license to the buffer.
@@ -54,6 +67,12 @@ Commands:
 
 :Mpl
     Add the Mozilla Public License 2.0 to the buffer.
+
+:Unlicense
+    Add the Unlicense to the buffer.
+
+:Wtfpl
+    Add the Do What The Fuck You Want To Public License (WTFPL) to the buffer.
 
 :Zlib
     Add the Zlib License to the buffer.
