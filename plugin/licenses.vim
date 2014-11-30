@@ -63,6 +63,11 @@ let s:filetypeCommentDelimiters = {
     \'cmake': {
         \'singlelineStart': '# '
     \},
+    \'haskell': {
+        \'end': '-}',
+        \'middle': ' - ',
+        \'start': '{-'
+    \},
     \'python': {
         \'singlelineStart': '# '
     \},
