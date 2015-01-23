@@ -20,12 +20,19 @@ Then add a command for this license:
 If your license file contains a <year> tag, it will be automatically
 replaced by the current year.
 
-And the <name of copyright holder> tag will be automatically replaced by the
+The <name of copyright holder> tag will be automatically replaced by the
 content of the g:licenses_copyright_holders_name variable (if not empty), so that
 the copyright holder's name will be automatically added to the license.
 Thus, you may want to add such a line to you .vimrc:
 
 let g:licenses_copyright_holders_name = 'Last Name, First Name <my@email.com>'
+
+And the <name of author> tag will be replaced by the content of the
+g:licenses_authors_name variable (if not empty).
+
+This way you can autocomplete the license template with, for example, the company
+you work for as the copyright holder, and you as the author. Or you can set
+yourself as the copyright holder, and thus your name will be next to the year.
 
 If you do not want this plugin to create all these commands, you may
 restrict to the licenses you want by using the g:licenses_default_commands
@@ -81,7 +88,11 @@ Commands:
 
 The g:licenses_copyright_holders_name option
 
-The name of copyright holder to automatically insert in the buffer in the licence.
+The name of the copyright holder to automatically insert in the buffer in the license.
+
+The g:licenses_authors_name option
+
+The author name to automatically insert in the buffer in the license.
 
 The g:licenses_default_commands option
 
