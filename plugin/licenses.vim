@@ -34,8 +34,8 @@ endif
 
 let g:loaded_licenses = 1
 
-if !exists('g:licenses_authors_name')
-    let g:licenses_authors_name = ''
+if !exists('g:licenses_copyright_holders_name')
+    let g:licenses_copyright_holders_name = ''
 endif
 
 if !exists('g:licenses_default_commands')
@@ -105,7 +105,7 @@ function! InsertLicense(name)
             let lastLine = line('.') - 1
             let firstLine = lastLine - lineCountDiff + 1
             call s:substituteYear(firstLine, lastLine)
-            call s:substituteAuthorName(firstLine, lastLine)
+            call s:substituteCopyrightHolder(firstLine, lastLine)
         endif
     else
         echoerr 'Cannot find file ' . licenseFileName . '.'
@@ -304,14 +304,14 @@ function! s:substituteYear(firstLine, lastLine)
     endif
 endfunction
 
-" Substitute the author's name tag.
-function! s:substituteAuthorName(firstLine, lastLine)
-    if len(g:licenses_authors_name) > 0
+" Substitute the copyright holder's name tag.
+function! s:substituteCopyrightHolder(firstLine, lastLine)
+    if len(g:licenses_copyright_holders_name) > 0
         call s:goTo(a:firstLine)
-        let _ = search('<name of author>', 'w')
+        let _ = search('<name of copyright holder>', 'w')
         let currentLine = line('.')
         if currentLine >= a:firstLine && currentLine <= a:lastLine
-            silent! substitute /<name of author>/\=g:licenses_authors_name/
+            silent! substitute /<name of copyright holder>/\=g:licenses_copyright_holders_name/
         endif
     endif
 endfunction
