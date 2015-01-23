@@ -1,4 +1,6 @@
 Copyright (c) <year>, <name of copyright holder>
+<name of author>
+
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
