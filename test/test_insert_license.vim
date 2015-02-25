@@ -29,14 +29,14 @@ let s:year = strftime('%Y')
 
 " Set a license author name and save the current one.
 function! s:tc.SETUP()
-    let s:old_licenses_authors_name = g:licenses_authors_name
-    let g:licenses_authors_name = 'Last Name, First Name <my@email.com>'
-    let s:name = g:licenses_authors_name
+    let s:old_licenses_copyright_holders_name = g:licenses_copyright_holders_name
+    let g:licenses_copyright_holders_name = 'Last Name, First Name <my@email.com>'
+    let s:name = g:licenses_copyright_holders_name
 endfunction
 
 " Restore the license author name.
 function! s:tc.TEARDOWN()
-    let g:licenses_authors_name = s:old_licenses_authors_name
+    let g:licenses_copyright_holders_name = s:old_licenses_copyright_holders_name
 endfunction
 
 " Clear the content of the window.
@@ -363,12 +363,13 @@ function! s:tc.test_python_empty()
     call s:clearWindow()
     Bsd2
     call self.assert_equal('# Copyright (c) ' . s:year . ', ' . s:name, getline(1))
-    call self.assert_equal('# All rights reserved.', getline(2))
-    call self.assert_equal('# ', getline(3))
-    call self.assert_equal('# either expressed or implied, of the FreeBSD Project.', getline(26))
-    call self.assert_equal('', getline(27))
+    call self.assert_equal('# ', getline(2))
+    call self.assert_equal('# All rights reserved.', getline(3))
+    call self.assert_equal('# ', getline(4))
+    call self.assert_equal('# either expressed or implied, of the FreeBSD Project.', getline(27))
     call self.assert_equal('', getline(28))
-    call self.assert_equal(28, line('$'))
+    call self.assert_equal('', getline(29))
+    call self.assert_equal(29, line('$'))
     bdelete!
 endfunction
 
@@ -380,12 +381,12 @@ function! s:tc.test_python_not_empty()
     call s:insertText('print("Hello World")')
     Bsd3
     call self.assert_equal('# Copyright (c) ' . s:year . ', ' . s:name, getline(1))
-    call self.assert_equal('# All rights reserved.', getline(2))
-    call self.assert_equal('# ', getline(3))
-    call self.assert_equal('# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.', getline(24))
-    call self.assert_equal('', getline(25))
-    call self.assert_equal('print("Hello World")', getline(26))
-    call self.assert_equal(26, line('$'))
+    call self.assert_equal('# All rights reserved.', getline(3))
+    call self.assert_equal('# ', getline(4))
+    call self.assert_equal('# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.', getline(25))
+    call self.assert_equal('', getline(26))
+    call self.assert_equal('print("Hello World")', getline(27))
+    call self.assert_equal(27, line('$'))
     bdelete!
 endfunction
 
@@ -414,10 +415,10 @@ function! s:tc.test_python_start_with_shebang()
     call self.assert_equal('#!/usr/bin/env python', getline(1))
     call self.assert_equal('', getline(2))
     call self.assert_equal('# Copyright (c) ' . s:year . '  ' . s:name, getline(3))
-    call self.assert_equal('# http://www.eclipse.org/legal/epl-v10.html', getline(7))
-    call self.assert_equal('', getline(8))
+    call self.assert_equal('# http://www.eclipse.org/legal/epl-v10.html', getline(8))
     call self.assert_equal('', getline(9))
-    call self.assert_equal(9, line('$'))
+    call self.assert_equal('', getline(10))
+    call self.assert_equal(10, line('$'))
     bdelete!
 endfunction
 
@@ -431,10 +432,10 @@ function! s:tc.test_python_start_with_shebang_three_lines()
     call self.assert_equal('#!/usr/bin/env python', getline(1))
     call self.assert_equal('', getline(2))
     call self.assert_equal('# Copyright (c) ' . s:year . '  ' . s:name, getline(3))
-    call self.assert_equal('# http://www.eclipse.org/legal/epl-v10.html', getline(7))
-    call self.assert_equal('', getline(8))
-    call self.assert_equal("print('Hello World')", getline(9))
-    call self.assert_equal(9, line('$'))
+    call self.assert_equal('# http://www.eclipse.org/legal/epl-v10.html', getline(8))
+    call self.assert_equal('', getline(9))
+    call self.assert_equal("print('Hello World')", getline(10))
+    call self.assert_equal(10, line('$'))
     bdelete!
 endfunction
 
@@ -448,10 +449,10 @@ function! s:tc.test_python_start_with_shebang_two_lines()
     call self.assert_equal('#!/usr/bin/env python', getline(1))
     call self.assert_equal('', getline(2))
     call self.assert_equal('# Copyright (c) ' . s:year . '  ' . s:name, getline(3))
-    call self.assert_equal('# http://www.eclipse.org/legal/epl-v10.html', getline(7))
-    call self.assert_equal('', getline(8))
+    call self.assert_equal('# http://www.eclipse.org/legal/epl-v10.html', getline(8))
     call self.assert_equal('', getline(9))
-    call self.assert_equal(9, line('$'))
+    call self.assert_equal('', getline(10))
+    call self.assert_equal(10, line('$'))
     bdelete!
 endfunction
 
@@ -529,10 +530,10 @@ function! s:tc.test_sh_start_with_shebang()
     call self.assert_equal('#!/usr/bin/env bash', getline(1))
     call self.assert_equal('', getline(2))
     call self.assert_equal('# Copyright (c) ' . s:year . '  ' . s:name, getline(3))
-    call self.assert_equal('# http://www.eclipse.org/legal/epl-v10.html', getline(7))
-    call self.assert_equal('', getline(8))
+    call self.assert_equal('# http://www.eclipse.org/legal/epl-v10.html', getline(8))
     call self.assert_equal('', getline(9))
-    call self.assert_equal(9, line('$'))
+    call self.assert_equal('', getline(10))
+    call self.assert_equal(10, line('$'))
     bdelete!
 endfunction
 
@@ -603,16 +604,16 @@ function! s:tc.test_vim_start_with_comment()
     bdelete!
 endfunction
 
-" Test the insertion of the MIT license in a buffer starting with a comment
-" with filetype "vim".
-function! s:tc.test_vim_without_author_name()
-    let g:licenses_authors_name = ''
+" Test the insertion of the MIT license in a buffer without a copyright holder
+" name with filetype "vim".
+function! s:tc.test_vim_without_copyright_holder_name()
+    let g:licenses_copyright_holders_name = ''
 
     new test.vim
     call s:clearWindow()
     call s:insertText("\"echo 'Hello World'")
     Mit
-    call self.assert_equal('" Copyright (c) ' . s:year . ' <name of author>', getline(1))
+    call self.assert_equal('" Copyright (c) ' . s:year . ' <name of copyright holder>', getline(1))
     call self.assert_equal('" ', getline(2))
     call self.assert_equal('" Permission is hereby granted, free of charge, to any person obtaining a copy of', getline(3))
     call self.assert_equal('" CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.', getline(18))
@@ -621,5 +622,29 @@ function! s:tc.test_vim_without_author_name()
     call self.assert_equal(20, line('$'))
     bdelete!
 
+    let g:licenses_copyright_holders_name = 'Last Name, First Name <my@email.com>'
+endfunction
+
+" Test the insertion of the MIT license in a buffer with a copyright holder
+" and an author name name with filetype "vim".
+function! s:tc.test_vim_with_copyright_holder_name_and_author_name()
+    let g:licenses_copyright_holders_name = 'My Company'
     let g:licenses_authors_name = 'Last Name, First Name <my@email.com>'
+
+    new test.vim
+    call s:clearWindow()
+    call s:insertText("\"echo 'Hello World'")
+    Mit
+    call self.assert_equal('" Copyright (c) ' . s:year . ' My Company', getline(1))
+    call self.assert_equal('" Author: Last Name, First Name <my@email.com>', getline(2))
+    call self.assert_equal('" ', getline(3))
+    call self.assert_equal('" Permission is hereby granted, free of charge, to any person obtaining a copy of', getline(4))
+    call self.assert_equal('" CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.', getline(19))
+    call self.assert_equal('', getline(20))
+    call self.assert_equal("\"echo 'Hello World'", getline(21))
+    call self.assert_equal(21, line('$'))
+    bdelete!
+
+    let g:licenses_copyright_holders_name = 'Last Name, First Name <my@email.com>'
+    let g:licenses_authors_name = ''
 endfunction

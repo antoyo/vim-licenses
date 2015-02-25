@@ -40,8 +40,6 @@ endif
 
 if !exists('g:licenses_authors_name')
     let g:licenses_authors_name = ''
-else
-    let g:licenses_authors_name = 'Author: ' . g:licenses_authors_name
 endif
 
 if !exists('g:licenses_default_commands')
@@ -325,12 +323,16 @@ endfunction
 
 " Substitute the author's name tag.
 function! s:substituteAuthorName(firstLine, lastLine)
-    if len(g:licenses_authors_name) > 0
-        call s:goTo(a:firstLine)
-        let _ = search('<name of author>', 'w')
-        let currentLine = line('.')
-        if currentLine >= a:firstLine && currentLine <= a:lastLine
-            silent! substitute /<name of author>/\=g:licenses_authors_name/
+    call s:goTo(a:firstLine)
+    let _ = search('<name of author>', 'w')
+    let currentLine = line('.')
+    if currentLine >= a:firstLine && currentLine <= a:lastLine
+        if len(g:licenses_authors_name) > 0
+            silent! substitute /<name of author>/\='Author: ' . g:licenses_authors_name/
+        else
+            if getline('.') =~ "<name of author>"
+                normal dd
+            endif
         endif
     endif
 endfunction
