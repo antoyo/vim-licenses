@@ -26,6 +26,15 @@ command! License call InsertLicense('licenseFile')
 If your license file contains a `<year>` tag, it will be automatically
 replaced by the current year.
 
+The `<name of copyright holder>` tag will be automatically replaced by the
+content of the `g:licenses_copyright_holders_name` variable (if not empty), so that
+the copyright holder's name will be automatically added to the license.
+Thus, you may want to add such a line to you .vimrc:
+
+```vim
+let g:licenses_copyright_holders_name = 'Last Name, First Name <my@email.com>'
+```
+
 And the `<name of author>` tag will be automatically replaced by the the
 content of the `g:licenses_authors_name` variable (if not empty), so that
 your name will be automatically added to the license.
