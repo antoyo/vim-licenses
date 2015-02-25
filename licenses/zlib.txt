@@ -1,4 +1,5 @@
-Copyright (C) <year> <name of author> All rights reserved.
+Copyright (C) <year> <name of copyright holder> All rights reserved.
+<name of author>
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -18,4 +19,3 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source
    distribution.
-

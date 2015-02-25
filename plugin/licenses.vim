@@ -34,8 +34,14 @@ endif
 
 let g:loaded_licenses = 1
 
+if !exists('g:licenses_copyright_holders_name')
+    let g:licenses_copyright_holders_name = ''
+endif
+
 if !exists('g:licenses_authors_name')
     let g:licenses_authors_name = ''
+else
+    let g:licenses_authors_name = 'Author: ' . g:licenses_authors_name
 endif
 
 if !exists('g:licenses_default_commands')
@@ -62,6 +68,11 @@ endif
 let s:filetypeCommentDelimiters = {
     \'cmake': {
         \'singlelineStart': '# '
+    \},
+    \'haskell': {
+        \'end': '-}',
+        \'middle': ' - ',
+        \'start': '{-'
     \},
     \'python': {
         \'singlelineStart': '# '
@@ -100,6 +111,7 @@ function! InsertLicense(name)
             let lastLine = line('.') - 1
             let firstLine = lastLine - lineCountDiff + 1
             call s:substituteYear(firstLine, lastLine)
+            call s:substituteCopyrightHolder(firstLine, lastLine)
             call s:substituteAuthorName(firstLine, lastLine)
         endif
     else
@@ -296,6 +308,18 @@ function! s:substituteYear(firstLine, lastLine)
     let currentLine = line('.')
     if currentLine >= a:firstLine && currentLine <= a:lastLine
         silent! substitute /<year>/\=strftime('%Y')/
+    endif
+endfunction
+
+" Substitute the copyright holder's name tag.
+function! s:substituteCopyrightHolder(firstLine, lastLine)
+    if len(g:licenses_copyright_holders_name) > 0
+        call s:goTo(a:firstLine)
+        let _ = search('<name of copyright holder>', 'w')
+        let currentLine = line('.')
+        if currentLine >= a:firstLine && currentLine <= a:lastLine
+            silent! substitute /<name of copyright holder>/\=g:licenses_copyright_holders_name/
+        endif
     endif
 endfunction
 
