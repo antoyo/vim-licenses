@@ -59,14 +59,23 @@ Commands
 `:Affero`
     Add the GNU Affero license to the buffer.
 
+`:Allpermissive`
+    Add the GNU All-Permissive license to the buffer.
+
 `:Apache`
     Add the Apache License 2.0 to the buffer.
+
+`:Boost`
+    Add the Boost software license 1.0 to the buffer.
 
 `:Bsd2`
     Add the BSD 2-Clause "New" or "Revised" license to the buffer.
 
 `:Bsd3`
     Add the BSD 3-Clause "Simplified" or "FreeBSD" license to the buffer.
+
+`:Cecill`
+    Add the CeCILL license to the buffer.
 
 `:Epl`
     Add the Eclipse Public License to the buffer.
@@ -80,6 +89,9 @@ Commands
 `:Gplv2`
     Add the GNU General Public License (GPL) version 2.0 to the buffer.
 
+`:Isc`
+    Add the ISC license to the buffer.
+
 `:Lgpl`
     Add the GNU "Lesser" General Public License (LGPL) license to the buffer.
 
@@ -91,6 +103,9 @@ Commands
 
 `:Unlicense`
     Add the Unlicense to the buffer.
+
+`:Verbatim`
+    Add the GNU Verbatim Copying License to the buffer.
 
 `:Wtfpl`
     Add the Do What The Fuck You Want To Public License (WTFPL) to the buffer.
