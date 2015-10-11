@@ -80,6 +80,9 @@ Commands
 `:Gplv2`
     Add the GNU General Public License (GPL) version 2.0 to the buffer.
 
+`:Isc`
+    Add the ISC license to the buffer.
+
 `:Lgpl`
     Add the GNU "Lesser" General Public License (LGPL) license to the buffer.
 

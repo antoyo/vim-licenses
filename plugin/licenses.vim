@@ -24,7 +24,7 @@
 " SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 " Vim plugin to insert licenses.
-" Last Change: 2014 May 31
+" Last Change: 2015 October 11
 " Maintener: Antoni Boucher <bouanto@gmail.com>
 " License: BSD
 
@@ -52,6 +52,7 @@ if !exists('g:licenses_default_commands')
         \, 'gfdl'
         \, 'gpl'
         \, 'gplv2'
+        \, 'isc'
         \, 'lgpl'
         \, 'mit'
         \, 'mpl'
