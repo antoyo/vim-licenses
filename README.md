@@ -59,6 +59,9 @@ Commands
 `:Affero`
     Add the GNU Affero license to the buffer.
 
+`:Allpermissive`
+    Add the GNU All-Permissive license to the buffer.
+
 `:Apache`
     Add the Apache License 2.0 to the buffer.
 

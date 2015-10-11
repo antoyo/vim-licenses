@@ -45,6 +45,7 @@ endif
 if !exists('g:licenses_default_commands')
     let g:licenses_default_commands =
         \['affero'
+        \, 'allpermissive'
         \, 'apache'
         \, 'bsd2'
         \, 'bsd3'
