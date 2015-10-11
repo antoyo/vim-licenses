@@ -60,6 +60,7 @@ if !exists('g:licenses_default_commands')
         \, 'mit'
         \, 'mpl'
         \, 'unlicense'
+        \, 'verbatim'
         \, 'wtfpl'
         \, 'zlib'
     \]

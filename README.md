@@ -104,6 +104,9 @@ Commands
 `:Unlicense`
     Add the Unlicense to the buffer.
 
+`:Verbatim`
+    Add the GNU Verbatim Copying License to the buffer.
+
 `:Wtfpl`
     Add the Do What The Fuck You Want To Public License (WTFPL) to the buffer.
 
