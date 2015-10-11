@@ -65,6 +65,9 @@ Commands
 `:Apache`
     Add the Apache License 2.0 to the buffer.
 
+`:Boost`
+    Add the Boost software license 1.0 to the buffer.
+
 `:Bsd2`
     Add the BSD 2-Clause "New" or "Revised" license to the buffer.
 

@@ -47,6 +47,7 @@ if !exists('g:licenses_default_commands')
         \['affero'
         \, 'allpermissive'
         \, 'apache'
+        \, 'boost'
         \, 'bsd2'
         \, 'bsd3'
         \, 'epl'
