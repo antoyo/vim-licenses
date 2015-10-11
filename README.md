@@ -74,6 +74,9 @@ Commands
 `:Bsd3`
     Add the BSD 3-Clause "Simplified" or "FreeBSD" license to the buffer.
 
+`:Cecill`
+    Add the CeCILL license to the buffer.
+
 `:Epl`
     Add the Eclipse Public License to the buffer.
 

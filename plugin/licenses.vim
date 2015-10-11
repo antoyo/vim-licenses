@@ -50,6 +50,7 @@ if !exists('g:licenses_default_commands')
         \, 'boost'
         \, 'bsd2'
         \, 'bsd3'
+        \, 'cecill'
         \, 'epl'
         \, 'gfdl'
         \, 'gpl'
