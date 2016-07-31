@@ -280,6 +280,7 @@ function s:insertComment(commentDelimiters, addedLineCount, secondLineEmpty)
     for i in range(1, a:addedLineCount)
         call cursor(line('.') + 1, 0)
         substitute /^/\=a:commentDelimiters['middle']/
+        substitute /\s\+$//e
     endfor
     put =a:commentDelimiters['end']
     normal I 
