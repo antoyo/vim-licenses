@@ -207,17 +207,17 @@ function! s:insertLicense(licenseFileName, secondLineEmpty)
 
         let lineCounteBefore = line('$')
 
-        execute '2read ' . expand(a:licenseFileName)
+        execute 'keepalt 2read ' . expand(a:licenseFileName)
     elseif s:isFileType('php') && line1 =~# '^<?php'
         let lineCounteBefore = line('$')
 
         if a:secondLineEmpty
-            execute '2read ' . expand(a:licenseFileName)
+            execute 'keepalt 2read ' . expand(a:licenseFileName)
         else
-            execute '1read ' . expand(a:licenseFileName)
+            execute 'keepalt 1read ' . expand(a:licenseFileName)
         endif
     else
-        execute '0read ' . expand(a:licenseFileName)
+        execute 'keepalt 0read ' . expand(a:licenseFileName)
     endif
 
     let lineCountAfter = line('$')
