@@ -1,6 +1,6 @@
 " Copyright (c) 2014, Boucher, Antoni <bouanto@gmail.com>
 " All rights reserved.
-" 
+"
 " Redistribution and use in source and binary forms, with or without
 " modification, are permitted provided that the following conditions are met:
 "     * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
 "     * Neither the name of the <organization> nor the
 "       names of its contributors may be used to endorse or promote products
 "       derived from this software without specific prior written permission.
-" 
+"
 " THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 " ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 " WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -41,13 +41,17 @@ endfunction
 
 " Clear the content of the window.
 function! s:clearWindow()
-    normal gg
-    normal dG
+    normal! gg
+    normal! dG
 endfunction
 
 " Insert the specified text.
 function! s:insertText(text)
-    execute 'normal i' . a:text
+    let lines = split(a:text, '\n')
+    for line in reverse(lines)
+        call append(0, line)
+    endfor
+    normal! Gdd
 endfunction
 
 " Test the insertion of the GPL license in an empty buffer with filetype
@@ -91,7 +95,7 @@ function! s:tc.test_c()
     Gpl
     call self.assert_equal('/*', getline(1))
     call self.assert_equal(' * Copyright (C) ' . s:year . '  ' . s:name, getline(2))
-    call self.assert_equal(' * ', getline(3))
+    call self.assert_equal(' *', getline(3))
     call self.assert_equal(' * This program is free software: you can redistribute it and/or modify', getline(4))
     call self.assert_equal(' * along with this program.  If not, see <http://www.gnu.org/licenses/>.', getline(15))
     call self.assert_equal(' */', getline(16))
@@ -109,7 +113,7 @@ function! s:tc.test_cpp()
     Gpl
     call self.assert_equal('/*', getline(1))
     call self.assert_equal(' * Copyright (C) ' . s:year . '  ' . s:name, getline(2))
-    call self.assert_equal(' * ', getline(3))
+    call self.assert_equal(' *', getline(3))
     call self.assert_equal(' * This program is free software: you can redistribute it and/or modify', getline(4))
     call self.assert_equal(' * along with this program.  If not, see <http://www.gnu.org/licenses/>.', getline(15))
     call self.assert_equal(' */', getline(16))
@@ -127,7 +131,7 @@ function! s:tc.test_cs()
     Gpl
     call self.assert_equal('/*', getline(1))
     call self.assert_equal(' * Copyright (C) ' . s:year . '  ' . s:name, getline(2))
-    call self.assert_equal(' * ', getline(3))
+    call self.assert_equal(' *', getline(3))
     call self.assert_equal(' * This program is free software: you can redistribute it and/or modify', getline(4))
     call self.assert_equal(' * along with this program.  If not, see <http://www.gnu.org/licenses/>.', getline(15))
     call self.assert_equal(' */', getline(16))
@@ -145,7 +149,7 @@ function! s:tc.test_css()
     Gpl
     call self.assert_equal('/*', getline(1))
     call self.assert_equal(' * Copyright (C) ' . s:year . '  ' . s:name, getline(2))
-    call self.assert_equal(' * ', getline(3))
+    call self.assert_equal(' *', getline(3))
     call self.assert_equal(' * This program is free software: you can redistribute it and/or modify', getline(4))
     call self.assert_equal(' * along with this program.  If not, see <http://www.gnu.org/licenses/>.', getline(15))
     call self.assert_equal(' */', getline(16))
@@ -163,7 +167,7 @@ function! s:tc.test_haskell()
     Gpl
     call self.assert_equal('{-', getline(1))
     call self.assert_equal(' - Copyright (C) ' . s:year . '  ' . s:name, getline(2))
-    call self.assert_equal(' - ', getline(3))
+    call self.assert_equal(' -', getline(3))
     call self.assert_equal(' - This program is free software: you can redistribute it and/or modify', getline(4))
     call self.assert_equal(' - along with this program.  If not, see <http://www.gnu.org/licenses/>.', getline(15))
     call self.assert_equal(' -}', getline(16))
@@ -181,7 +185,7 @@ function! s:tc.test_html()
     Gpl
     call self.assert_equal('<!--', getline(1))
     call self.assert_equal('      Copyright (C) ' . s:year . '  ' . s:name, getline(2))
-    call self.assert_equal('      ', getline(3))
+    call self.assert_equal('', getline(3))
     call self.assert_equal('      This program is free software: you can redistribute it and/or modify', getline(4))
     call self.assert_equal('      along with this program.  If not, see <http://www.gnu.org/licenses/>.', getline(15))
     call self.assert_equal(' -->', getline(16))
@@ -199,7 +203,7 @@ function! s:tc.test_java()
     Gpl
     call self.assert_equal('/*', getline(1))
     call self.assert_equal(' * Copyright (C) ' . s:year . '  ' . s:name, getline(2))
-    call self.assert_equal(' * ', getline(3))
+    call self.assert_equal(' *', getline(3))
     call self.assert_equal(' * This program is free software: you can redistribute it and/or modify', getline(4))
     call self.assert_equal(' * along with this program.  If not, see <http://www.gnu.org/licenses/>.', getline(15))
     call self.assert_equal(' */', getline(16))
@@ -217,7 +221,7 @@ function! s:tc.test_js()
     Gpl
     call self.assert_equal('/*', getline(1))
     call self.assert_equal(' * Copyright (C) ' . s:year . '  ' . s:name, getline(2))
-    call self.assert_equal(' * ', getline(3))
+    call self.assert_equal(' *', getline(3))
     call self.assert_equal(' * This program is free software: you can redistribute it and/or modify', getline(4))
     call self.assert_equal(' * along with this program.  If not, see <http://www.gnu.org/licenses/>.', getline(15))
     call self.assert_equal(' */', getline(16))
@@ -236,7 +240,7 @@ function! s:tc.test_objective_c()
     Gpl
     call self.assert_equal('/*', getline(1))
     call self.assert_equal(' * Copyright (C) ' . s:year . '  ' . s:name, getline(2))
-    call self.assert_equal(' * ', getline(3))
+    call self.assert_equal(' *', getline(3))
     call self.assert_equal(' * This program is free software: you can redistribute it and/or modify', getline(4))
     call self.assert_equal(' * along with this program.  If not, see <http://www.gnu.org/licenses/>.', getline(15))
     call self.assert_equal(' */', getline(16))
@@ -271,7 +275,7 @@ function! s:tc.test_php_empty()
     call self.assert_equal('<?php', getline(1))
     call self.assert_equal('/*', getline(3))
     call self.assert_equal(' * Copyright (C) ' . s:year . '  ' . s:name, getline(4))
-    call self.assert_equal(' * ', getline(5))
+    call self.assert_equal(' *', getline(5))
     call self.assert_equal(' * This program is free software: you can redistribute it and/or modify', getline(6))
     call self.assert_equal(' * along with this program.  If not, see <http://www.gnu.org/licenses/>.', getline(17))
     call self.assert_equal(' */', getline(18))
@@ -294,7 +298,7 @@ function! s:tc.test_php_not_empty()
     call self.assert_equal('', getline(2))
     call self.assert_equal('/*', getline(3))
     call self.assert_equal(' * Copyright (C) ' . s:year . '  ' . s:name, getline(4))
-    call self.assert_equal(' * ', getline(5))
+    call self.assert_equal(' *', getline(5))
     call self.assert_equal(' * This program is free software: you can redistribute it and/or modify', getline(6))
     call self.assert_equal(' * along with this program.  If not, see <http://www.gnu.org/licenses/>.', getline(17))
     call self.assert_equal(' */', getline(18))
@@ -317,7 +321,7 @@ function! s:tc.test_php_not_empty_html()
     call self.assert_equal('', getline(2))
     call self.assert_equal('/*', getline(3))
     call self.assert_equal(' * Copyright (C) ' . s:year . '  ' . s:name, getline(4))
-    call self.assert_equal(' * ', getline(5))
+    call self.assert_equal(' *', getline(5))
     call self.assert_equal(' * This program is free software: you can redistribute it and/or modify', getline(6))
     call self.assert_equal(' * along with this program.  If not, see <http://www.gnu.org/licenses/>.', getline(17))
     call self.assert_equal(' */', getline(18))
@@ -344,7 +348,7 @@ function! s:tc.test_php_not_empty_spaced()
     call self.assert_equal('', getline(2))
     call self.assert_equal('/*', getline(3))
     call self.assert_equal(' * Copyright (C) ' . s:year . '  ' . s:name, getline(4))
-    call self.assert_equal(' * ', getline(5))
+    call self.assert_equal(' *', getline(5))
     call self.assert_equal(' * This program is free software: you can redistribute it and/or modify', getline(6))
     call self.assert_equal(' * along with this program.  If not, see <http://www.gnu.org/licenses/>.', getline(17))
     call self.assert_equal(' */', getline(18))

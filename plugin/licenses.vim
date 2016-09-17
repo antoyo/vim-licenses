@@ -1,6 +1,6 @@
 " Copyright (c) 2014, Boucher, Antoni <bouanto@gmail.com>
 " All rights reserved.
-" 
+"
 " Redistribution and use in source and binary forms, with or without
 " modification, are permitted provided that the following conditions are met:
 "     * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
 "     * Neither the name of the <organization> nor the
 "       names of its contributors may be used to endorse or promote products
 "       derived from this software without specific prior written permission.
-" 
+"
 " THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 " ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 " WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -195,13 +195,13 @@ endfunction
 " License insertion.
 function! s:insertLicense(licenseFileName, secondLineEmpty)
     let lineCounteBefore = line('$')
-    normal gg
+    normal! gg
 
     let line1 = getline(1)
 
     if line1 =~# '^#!' 
         if line('$') < 2
-            normal o
+            normal! o
             call setline('.', '')
         endif
 
@@ -226,7 +226,7 @@ endfunction
 
 " Insert singleline comment.
 function s:insertSinglelineComment(commentDelimiters, addedLineCount)
-    normal gg
+    normal! gg
 
     let line1 = getline(1)
     if line1 =~# '^#!'
@@ -243,11 +243,11 @@ function s:insertSinglelineComment(commentDelimiters, addedLineCount)
     endfor
 
     if line('.') == lastLine
-        normal o
+        normal! o
         call setline('.', '')
-        normal o
+        normal! o
     else
-        normal O
+        normal! O
     endif
     call setline('.', '')
 endfunction
@@ -261,19 +261,19 @@ function s:insertComment(commentDelimiters, addedLineCount, secondLineEmpty)
     if s:isFileType('php')
         if line1 !~# '^<?php'
             let hasInsertedPhpTag = 1
-            normal ggO<?php
-            normal o
+            normal! ggO<?php
+            normal! o
         else
-            normal gg
+            normal! gg
             if !a:secondLineEmpty
-                normal o
+                normal! o
             else
                 call cursor(line('.') + 1, 0)
             endif
         endif
-        normal o
+        normal! o
     else
-        normal ggO
+        normal! ggO
     endif
 
     call setline('.', a:commentDelimiters['start'])
@@ -283,16 +283,16 @@ function s:insertComment(commentDelimiters, addedLineCount, secondLineEmpty)
         substitute /\s\+$//e
     endfor
     put =a:commentDelimiters['end']
-    normal I 
+    normal! I 
 
     " Insert php close tag if filetype is php and first line did not
     " contain it.
     if s:isFileType('php') && hasInsertedPhpTag
-        normal o
-        normal o?>
+        normal! o
+        normal! o?>
     endif
 
-    normal o
+    normal! o
 endfunction
 
 " Check whether the current file is of the specified filetype.
@@ -337,7 +337,7 @@ function! s:substituteAuthorName(firstLine, lastLine)
             silent! substitute /<name of author>/\='Author: ' . g:licenses_authors_name/
         else
             if getline('.') =~ "<name of author>"
-                normal dd
+                normal! dd
             endif
         endif
     endif
