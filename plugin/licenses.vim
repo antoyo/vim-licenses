@@ -1,4 +1,4 @@
-" Copyright (c) 2014, Boucher, Antoni <bouanto@gmail.com>
+" Copyright (c) 2014-2016, Boucher, Antoni <bouanto@gmail.com>
 " All rights reserved.
 "
 " Redistribution and use in source and binary forms, with or without
@@ -239,6 +239,7 @@ function s:insertSinglelineComment(commentDelimiters, addedLineCount)
 
     for i in range(1, a:addedLineCount)
         substitute /^/\=commentChar/
+        substitute /\s\+$//e
         call cursor(line('.') + 1, 0)
     endfor
 
