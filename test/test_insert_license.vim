@@ -652,3 +652,22 @@ function! s:tc.test_vim_with_copyright_holder_name_and_author_name()
     let g:licenses_copyright_holders_name = 'Last Name, First Name <my@email.com>'
     let g:licenses_authors_name = ''
 endfunction
+
+" Test the insertion of the GPL license in a buffer starting with an attribute
+" with filetype "rust".
+function! s:tc.test_rust_start_with_attribute()
+    new test.rs
+    call s:clearWindow()
+    call s:insertText('#![feature(plugin)]')
+    Gpl
+    call self.assert_equal('/*', getline(1))
+    call self.assert_equal(' * Copyright (C) ' . s:year . '  ' . s:name, getline(2))
+    call self.assert_equal(' *', getline(3))
+    call self.assert_equal(' * This program is free software: you can redistribute it and/or modify', getline(4))
+    call self.assert_equal(' * along with this program.  If not, see <http://www.gnu.org/licenses/>.', getline(15))
+    call self.assert_equal(' */', getline(16))
+    call self.assert_equal('', getline(17))
+    call self.assert_equal('#![feature(plugin)]', getline(18))
+    call self.assert_equal(18, line('$'))
+    bdelete!
+endfunction

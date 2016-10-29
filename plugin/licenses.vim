@@ -199,7 +199,7 @@ function! s:insertLicense(licenseFileName, secondLineEmpty)
 
     let line1 = getline(1)
 
-    if line1 =~# '^#!' 
+    if line1 =~# '^#!/'
         if line('$') < 2
             normal! o
             call setline('.', '')
@@ -229,7 +229,7 @@ function s:insertSinglelineComment(commentDelimiters, addedLineCount)
     normal! gg
 
     let line1 = getline(1)
-    if line1 =~# '^#!'
+    if line1 =~# '^#!/'
         call cursor(line('.') + 2, 0)
     endif
 
