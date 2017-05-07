@@ -1,4 +1,5 @@
 " Copyright (c) 2014-2016, Boucher, Antoni <bouanto@gmail.com>
+" Copyright (c) 2017, Ross, Koz <koz.ross@retro-freedom.nz>
 " All rights reserved.
 "
 " Redistribution and use in source and binary forms, with or without
@@ -50,6 +51,9 @@ if !exists('g:licenses_default_commands')
         \, 'boost'
         \, 'bsd2'
         \, 'bsd3'
+        \, 'cc-by'
+        \, 'cc-by-sa'
+        \, 'cc0'
         \, 'cecill'
         \, 'epl'
         \, 'gfdl'

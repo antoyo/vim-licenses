@@ -54,6 +54,17 @@ Commands:
 :Bsd3
     Add the BSD 3-Clause "Simplified" or "FreeBSD" license to the buffer.
 
+:Cc0
+    Add the Creative Commons Zero license to the buffer.
+
+:Cc-by
+    Add the Creative Commons Attribution International License 4.0 to the
+    buffer.
+
+:Cc-by-sa
+    Add the Creative Commons Attribution-ShareAlike International License 4.0 to
+    the buffer.
+
 :Epl
     Add the Eclipse Public License to the buffer.
 
