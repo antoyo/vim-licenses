@@ -57,11 +57,11 @@ Commands:
 :Cc0
     Add the Creative Commons Zero license to the buffer.
 
-:Cc-by
+:Cc_by
     Add the Creative Commons Attribution International License 4.0 to the
     buffer.
 
-:Cc-by-sa
+:Cc_by_sa
     Add the Creative Commons Attribution-ShareAlike International License 4.0 to
     the buffer.
 
