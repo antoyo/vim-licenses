@@ -73,6 +73,9 @@ endif
 " Default comment delimiters for some languages without proper options
 " setting.
 let s:filetypeCommentDelimiters = {
+    \'awk': {
+        \'singlelineStart': '# '
+    \},
     \'cmake': {
         \'singlelineStart': '# '
     \},
