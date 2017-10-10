@@ -74,6 +74,16 @@ Commands
 `:Bsd3`
     Add the BSD 3-Clause "Simplified" or "FreeBSD" license to the buffer.
 
+`:Cc0`
+    Add the Creative Commons Zero license to the buffer.
+
+`:Ccby`
+    Add the Creative Commons Attribution 4.0 International License to the buffer.
+
+`:Ccbysa`
+    Add the Creative Commons Attribution-ShareAlike 4.0 International License to
+    the buffer.
+
 `:Cecill`
     Add the CeCILL license to the buffer.
 
