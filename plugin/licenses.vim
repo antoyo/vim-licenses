@@ -62,6 +62,7 @@ if !exists('g:licenses_default_commands')
         \, 'isc'
         \, 'lgpl'
         \, 'mit'
+        \, 'mitapache'
         \, 'mpl'
         \, 'unlicense'
         \, 'verbatim'
