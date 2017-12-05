@@ -108,6 +108,9 @@ Commands
 `:Mit`
     Add the MIT license to the buffer.
 
+`:MitApache`
+    Add the MIT/Apache Licence 2.0 dual license to the buffer.
+
 `:Mpl`
     Add the Mozilla Public License 2.0 to the buffer.
 
