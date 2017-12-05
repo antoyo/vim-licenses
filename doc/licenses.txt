@@ -83,7 +83,7 @@ Commands:
 :Mit
     Add the MIT license to the buffer.
 
-:MitApache
+:Mitapache
     Add the MIT/Apache Licence 2.0 dual license to the buffer.
 
 :Mpl
