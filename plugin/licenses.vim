@@ -64,6 +64,7 @@ if !exists('g:licenses_default_commands')
         \, 'mit'
         \, 'mitapache'
         \, 'mpl'
+        \, 'uiuc'
         \, 'unlicense'
         \, 'verbatim'
         \, 'wtfpl'
