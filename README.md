@@ -114,6 +114,9 @@ Commands
 `:Mpl`
     Add the Mozilla Public License 2.0 to the buffer.
 
+`:Uiuc`
+    Add the University of Illinois/NCSA Open Source License (UIUC) to the buffer.
+
 `:Unlicense`
     Add the Unlicense to the buffer.
 
