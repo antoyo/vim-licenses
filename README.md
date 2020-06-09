@@ -69,10 +69,10 @@ Commands
     Add the Boost software license 1.0 to the buffer.
 
 `:Bsd2`
-    Add the BSD 2-Clause "New" or "Revised" license to the buffer.
+    Add the BSD 2-Clause ["FreeBSD" license](https://www.gnu.org/licenses/license-list.html#FreeBSD) to the buffer.
 
 `:Bsd3`
-    Add the BSD 3-Clause "Simplified" or "FreeBSD" license to the buffer.
+    Add the BSD 3-Clause ["Modified BSD" license](https://www.gnu.org/licenses/license-list.html#ModifiedBSD) to the buffer.
 
 `:Cc0`
     Add the Creative Commons Zero license to the buffer.
